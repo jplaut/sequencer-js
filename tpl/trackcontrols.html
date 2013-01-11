@@ -5,6 +5,7 @@
 <div class="left">
   <div class="tracklabel"><div class="close removeTrack"></div><div class="trackLabelText">{{name}}</div></div>
   <div class="toggleEffects"></div>
+  {{#if sequencer}}
   <div class="sample">
     {{#if sampleName}}
       <div class="close removeSample"></div>
@@ -14,4 +15,12 @@
       <input type="file" size="5" />
     {{/if}}
   </div>
+  {{else}}
+    <select class="synthtype">
+      <option value="sine" selected = "selected">Sine</option>
+      <option value="square">Square</option>
+      <option value="sawtooth">Sawtooth</option>
+      <option value="triangle">Triangle</option>
+    </select>
+  {{/if}}
 </div>

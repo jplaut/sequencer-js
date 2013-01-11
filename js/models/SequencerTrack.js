@@ -1,4 +1,4 @@
-var Track = Backbone.Model.extend({
+var SequencerTrack = Backbone.Model.extend({
   defaults: function() {
     return {
       solo: false,
@@ -43,6 +43,10 @@ var Track = Backbone.Model.extend({
     }
   },
   stopPlayback: function(app, isPlaying) {
-
+    if (!isPlaying) {
+      _(this.notesplaying).each(function(note) {
+        note.noteOff();
+      });
+    }
   }
 });

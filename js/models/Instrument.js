@@ -1,6 +1,7 @@
-var Sequencer = Backbone.Model.extend({
+var Instrument = Backbone.Model.extend({
   defaults: function() {
     return {
+      type: 'Synth',
       patternLength: 16,
       noteType: 16
     }
@@ -8,8 +9,8 @@ var Sequencer = Backbone.Model.extend({
   initialize: function() {
     _.bindAll(this);
 
-    this.collection = new Tracks;
-    this.view = new SequencerView({model: this, collection: this.collection});
+    this.collection = new Tracks(null, this.get('type'));
+    this.view = new InstrumentView({model: this, collection: this.collection});
     this.relativeBeatIndex = Math.ceil(app.beatIndex / (64 / this.get('noteType')));
 
     this.on('change:patternLength', this.handleChangePatternLength);

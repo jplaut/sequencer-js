@@ -1,6 +1,6 @@
 var Instruments = Backbone.Collection.extend({
+  model: Instrument,
   initialize: function() {
-    var instrument = new Sequencer;
-    this.add(instrument);
+    this.add();
   }
 });

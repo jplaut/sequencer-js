@@ -1,6 +1,6 @@
-var SequencerView = Backbone.View.extend({
+var InstrumentView = Backbone.View.extend({
   tagName: 'div',
-  className: 'sequencer instrument',
+  className: 'instrument',
   events: {
     'change .patternlength': 'changePatternLength',
     'change .notetype': 'changeNoteType',
@@ -10,9 +10,10 @@ var SequencerView = Backbone.View.extend({
   },
   initialize: function() {
     _.bindAll(this);
+    this.$el.addClass(this.model.get('type').toLowerCase());
 
-    this.template = globals.templateLoader.load('sequencer');
-    this.topTemplate = globals.templateLoader.load('sequencer-top');
+    this.template = globals.templateLoader.load('instrument');
+    this.topTemplate = globals.templateLoader.load('instrument-top');
 
     this.collection.on('add', this.appendTrack);
     this.model.on('change:patternLength change:noteType', this.renderTopSection);
@@ -20,7 +21,22 @@ var SequencerView = Backbone.View.extend({
     this.model.on('clear:beat', this.clearBeat);
   },
   render: function() {
-    this.$el.html(this.template());
+    var name, sequencer;
+
+    switch (this.model.get('type')) {
+      case "Sequencer":
+        name = "WA-909";
+        sequencer = true;
+        break;
+      case "Synth":
+        name = "SYNTH";
+        sequencer = false;
+        break;
+      default:
+        break;
+    }
+
+    this.$el.html(this.template({name: name, sequencer: sequencer}));
 
     this.renderTopSection();
 
@@ -33,7 +49,7 @@ var SequencerView = Backbone.View.extend({
     return this;
   },
   handleScroll: function(e) {
-    $(".sequencerControls", this.el).css('left', this.$el.scrollLeft() + 328);
+    $(".instrumentControls", this.el).css('left', this.$el.scrollLeft() + 328);
   },
   createTrack: function() {
     this.collection.add();

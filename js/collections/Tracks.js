@@ -1,6 +1,16 @@
 var Tracks = Backbone.Collection.extend({
-  model: Track,
-  initialize: function() {
+  initialize: function(models, type) {
+    switch (type) {
+      case "Sequencer":
+        this.model = SequencerTrack;
+        break;
+      case "Synth":
+        this.model = SynthTrack;
+        break;
+      default:
+        break;
+    }
+
     this.add();
   }
 });

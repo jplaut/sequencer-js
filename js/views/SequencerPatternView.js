@@ -1,4 +1,4 @@
-var PatternView = Backbone.View.extend({
+var SequencerPatternView = Backbone.View.extend({
   tagName: 'div',
   className: 'steps',
   events: {

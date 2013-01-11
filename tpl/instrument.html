@@ -1,12 +1,14 @@
 <div class="instrumentTitle">
   <div class="close removeInstrument">
   </div>
-  <h2>WA-909</h2></div>
+  <h2>{{name}}</h2></div>
 <div class="top"></div>
 <div class="tracks"></div>
 
-<div class="sequencerControls">
-  <button class="addtrack">Add Track</button>
+<div class="instrumentControls">
+  {{#if sequencer}}
+    <button class="addtrack">Add Track</button>
+  {{/if}}
   <label for="patternlength">Steps: </label>
   <input class="patternlength" type="number" max="64" min="1" value="16" style="width: 40px;" />
   <label for="notetype">Length: </label>

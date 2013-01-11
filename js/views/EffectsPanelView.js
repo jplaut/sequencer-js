@@ -6,6 +6,7 @@ var EffectsPanelView = Backbone.View.extend({
   },
   initialize: function() {
     _.bindAll(this);
+
     this.collection.on('add', this.appendEffect);
     this.template = globals.templateLoader.load('effectspanel');
   },

@@ -33,12 +33,9 @@ var AppView = Backbone.View.extend({
     $(".instrument").css('max-height', this.$el.height());
   },
   createInstrument: function(e) {
-    var instrument;
-
-    switch ($(e.currentTarget).val()) {
-      case "Sequencer":
-        instrument = new Sequencer;
-    }
+    var instrument = new Instrument({
+      type: $(e.currentTarget).val()
+    });
     
     this.collection.add(instrument);
     $(e.currentTarget).val('default');
