@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script src="lib/jquery-min.js"></script>
+  </head>
+  <body>
+    <form action="" method="post" id="login">
+      <input type="text" id="username" orig="Username" value="Username" />
+      <input type="password" id="password" orig="password" value="password" />
+      <button type="submit">Login</button>
+    </form>
+
+    <a href="#">Create an account</a>
+
+    <script type="text/javascript">
+      $("#login input").on("focus", function() {
+        if ($(this).val() == $(this).attr('orig')) {
+          $(this).val("");
+        }
+      });
+
+      $("#login input").on("blur", function() {
+        if (!$(this).val()) {
+          $(this).val($(this).attr('orig'));
+        }
+      });
+
+      $("#login").submit(function() {
+        var valid = true;
+
+        $("input").each(function() {
+          if (!$(this).val() || $(this).val() == $(this).attr('orig')) {
+            $(this).css('border', '1px solid red');
+            valid = false;
+          }
+        });
+
+        if (valid) {
+          var info = {
+            username: $("#username").val(),
+            password: $("#password").val(),
+          };
+
+          $.ajax({
+            type: "POST",
+            data: info
+          })
+          .success(function(data) {
+            console.log(data);
+          });
+        }
+
+        return false;
+      });
+    </script>
+  </body>
+</html>
