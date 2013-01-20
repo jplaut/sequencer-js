@@ -1,13 +1,13 @@
 /* PAGE */
 @font-face {
   font-family: Monda;
-  src: url('../../../css/fonts/Monda-Regular.ttf');
+  src: image-url('fonts/Monda-Regular.ttf');
 }
 
 @font-face {
   font-family: Monda;
   font-weight: bold;
-  src: url('../../../css/fonts/Monda-Bold.ttf');
+  src: image-url('fonts/Monda-Bold.ttf');
 }
 
 html {
@@ -247,13 +247,13 @@ body {
   width: 20px;
   height: 17px;
   cursor: pointer;
-  background: url("../../../img/open_effects.png") no-repeat;
+  background: image-url("open_effects.png") no-repeat;
   background-size: 20px 17px;
   margin-top: -1px;
 }
 
 .toggleEffects.enabled {
-  background: url("../../../img/close_effects.png") no-repeat;
+  background: image-url("close_effects.png") no-repeat;
   background-size: 20px 17px;
 }
 
@@ -428,7 +428,7 @@ body {
 .close {
   display: inline-block;
   vertical-align: bottom;
-  background: url("../../../img/x.png") no-repeat;
+  background: image-url("x.png") no-repeat;
   background-size: 14px;
   width: 14px;
   height: 14px;

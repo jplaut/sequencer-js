@@ -10,6 +10,29 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
+//= require jquery-min
 //= require jquery_ujs
-//= require_tree .
+//= require json2
+//= require underscore-min
+//= require backbone-min
+//= require handlebars
+//= require raphael-min
+//= require recorder
+//= require globals
+//= require models/App
+//= require helpers
+//= require models/Track
+//= require models/Effect
+//= require models/Sequencer
+//= require collections/Instruments
+//= require collections/Tracks
+//= require collections/Effects
+//= require views/PatternView
+//= require views/EffectView
+//= require views/AutomationView
+//= require views/EffectsPanelView
+//= require views/TrackControlsView
+//= require views/TrackView
+//= require views/SequencerView
+//= require views/AppView
+//= require main

@@ -1,6 +1,6 @@
 var globals = {
   templateLoader: {
-    directory: 'templates/',
+    directory: '/assets/',
     load: function(template) {
       var tpl;
 

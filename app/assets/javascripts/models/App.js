@@ -13,7 +13,7 @@ var App = Backbone.Model.extend({
     this.beatIndex = 0;
     this.audioOut = globals.audioContext.createGainNode();
     this.audioOut.connect(globals.audioContext.destination);
-    this.rec = new Recorder(this.audioOut, {workerPath: "lib/recorderWorker.js"});
+    this.rec = new Recorder(this.audioOut, {workerPath: "/assets/recorderWorker.js"});
     this.setStepTime(this, 120);
 
     this.on('change:isRecording', this.toggleRecording);

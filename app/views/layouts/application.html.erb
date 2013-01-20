@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>SequencerJs</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta charset=utf-8>
+    <title>Web Audio Workbench</title>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application' %>
+  </head>
+  <body>
+    <div id="overlay">
+      <div id="overlaytext">
+        You are currently using a browser that does not support the Web Audio API. Please visit this site using Chrome in order to use the Web Audio Workbench.
+      </div>
+    </div>
 
-<%= yield %>
+    <script type="text/javascript">
+      if (navigator.userAgent.toLowerCase().indexOf('chrome') == -1) {
+        $("#overlay").css("display", "block");
+      } else {
+        var app = new App;
+      }
+    </script>
 
-</body>
+  <% unless Rails.env.development? %>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36065116-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  <% end %>
+  </body>
 </html>
