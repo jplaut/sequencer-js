@@ -1,14 +1,17 @@
 var App = Backbone.Model.extend({
   defaults: function() {
     return {
-      tempo: 120,
       isPlaying: false,
       isPaused: false,
-      isRecording: false
+      isRecording: false,
+      currentProject: null
     }
   },
   initialize:function() {
     _.bindAll(this);
+
+    this.projects = new Projects;
+    this.currentProject = this.projects.at(0);
 
     this.beatIndex = 0;
     this.audioOut = globals.audioContext.createGainNode();
@@ -25,6 +28,8 @@ var App = Backbone.Model.extend({
     this.stepTime = 60 / tempo / 16;
   },
   togglePlayback: function(m, isPlaying) {
+    evts.trigger("change:isPlaying", isPlaying);
+
     if (isPlaying) {
       this.startTime = globals.audioContext.currentTime;
       this.noteTime = 0;
@@ -45,7 +50,7 @@ var App = Backbone.Model.extend({
     var elapsedTime = globals.audioContext.currentTime - this.startTime;
 
     if (this.noteTime < elapsedTime) {
-      this.trigger('beat', this.beatIndex);
+      evts.trigger('beat', this.beatIndex);
       this.beatIndex = (this.beatIndex == 63) ? 0: this.beatIndex + 1;
       this.noteTime += this.stepTime;
     }

@@ -7,4 +7,4 @@ var Effects = Backbone.Collection.extend({
 
     return source;
   }
-})
+});

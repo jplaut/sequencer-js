@@ -100,7 +100,7 @@ var TrackControlsView = Backbone.View.extend({
       alert("File must be one of the following formats: \n" + supportedTypes.join("\n"));
       $(e.currentTarget).html($(e.currentTarget).html());
     } else if (e.currentTarget.files.length > 0) {
-      $(e.currentTarget).replaceWith("<img src=img/loading.gif />");
+      $(e.currentTarget).replaceWith("<img src=assets/loading.gif />");
 
       this.model.setSample(
         e.currentTarget.files[0],

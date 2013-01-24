@@ -15,7 +15,7 @@ var Track = Backbone.Model.extend({
     this.steps = [];
     this.notesplaying = [];
 
-    app.on('change:isPlaying', this.stopPlayback);
+    evts.on('change:isPlaying', this.stopPlayback);
   },
   setSample: function(file, callback, context) {
     var self = this,

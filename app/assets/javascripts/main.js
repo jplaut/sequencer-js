@@ -9,12 +9,38 @@
 */
 
 $(function() {
-  if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-    var appView = new AppView({
-      model: app
-    });
+  init();
+  $("#about-link").on('click', toggleAbout);
+  $("#login-link").on('click', toggleLogin);
 
-    $(document.body).append(appView.render().el);
-    appView.handleWindowResize();
+  function init() {
+    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+      app = new App;
+      var appView = new AppView({
+        model: app,
+        collection: app.currentProject.instruments
+      });
+
+      $(document.body).append(appView.render().el);
+      appView.handleWindowResize();
+    }
+  }
+
+  function toggleAbout() {
+    if ($("#login").css('display') == 'block') {
+      $("#login").slideToggle(400);
+    }
+
+    $("#about").slideToggle(400);
+    return false;
+  }
+
+  function toggleLogin() {
+    if ($("#about").css('display') == 'block') {
+      $("#about").slideToggle(400);
+    }
+    
+    $("#login").slideToggle(400);
+    return false;
   }
 });

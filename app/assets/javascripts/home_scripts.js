@@ -19,11 +19,13 @@
 //= require raphael-min
 //= require recorder
 //= require globals
-//= require models/App
 //= require helpers
+//= require models/Project
+//= require models/App
+//= require models/Sequencer
 //= require models/Track
 //= require models/Effect
-//= require models/Sequencer
+//= require collections/Projects
 //= require collections/Instruments
 //= require collections/Tracks
 //= require collections/Effects

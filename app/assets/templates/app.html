@@ -1,3 +1,11 @@
+<div id="project-name"><h1>{{name}}</h1></div>
+<select id="project">
+  {{#each projects}}
+    <option value="{{this.id}}">{{this.name}}</option>
+  {{/each}}
+  <option value="new">New...</option>
+</select>
+<button id="save">Save</button>
 <div id="instruments"></div>
 <div id="transport">
   <select id="createInstrument">

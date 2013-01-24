@@ -28,8 +28,6 @@ var SequencerView = Backbone.View.extend({
       this.appendTrack(track);
     }, this);
 
-    if (app.get('isPlaying')) this.model.play();
-
     return this;
   },
   handleScroll: function(e) {
@@ -92,6 +90,6 @@ var SequencerView = Backbone.View.extend({
   },
   removeInstrument: function() {
     this.remove();
-    app.trigger('remove:instrument', this.model);
+    evts.trigger('remove:instrument', this.model);
   }
 });
