@@ -43,6 +43,20 @@ var Track = Backbone.Model.extend({
     }
   },
   stopPlayback: function(app, isPlaying) {
+    if (!isPlaying) {
+      _(this.notesplaying).each(function(note) {
+        note.noteOff(0);
+      });
 
+      this.notesplaying = [];
+    }
+  },
+  toJSON: function(options) {
+    console.log(this.get('name'));
+    var json = _(this.attributes).pick('sampleName', 'sample', 'name');
+    json.effects = this.effects.toJSON();
+    json.steps = _(this.steps).clone();
+
+    return json;
   }
 });

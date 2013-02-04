@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require json2
 //= require underscore-min
-//= require backbone-min
+//= require backbone
 //= require handlebars
 //= require raphael-min
 //= require recorder

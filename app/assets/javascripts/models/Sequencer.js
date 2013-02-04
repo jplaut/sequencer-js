@@ -1,6 +1,7 @@
 var Sequencer = Backbone.Model.extend({
   defaults: function() {
     return {
+      type: "Sequencer",
       patternLength: 16,
       noteType: 16
     }
@@ -46,5 +47,16 @@ var Sequencer = Backbone.Model.extend({
 
       this.relativeBeatIndex = (this.relativeBeatIndex == this.get('patternLength') - 1) ? 0 : this.relativeBeatIndex + 1;
     }
+  },
+  toJSON: function(options) {
+    var json = _(this.attributes).clone();
+    json.tracks = this.tracks.toJSON();
+
+    return json;
+  },
+  parse: function(res, options) {
+    if (res.tracks) this.tracks.reset(res.tracks);
+
+    return res;
   }
 });

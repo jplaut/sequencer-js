@@ -7,13 +7,10 @@ var Effect = Backbone.Model.extend({
     }
   },
   initialize: function() {
-    var self = this,
-        details = globals.effectsList[this.get('type')];
+    var details = globals.effectsList[this.get('type')];
 
     if (this.get('type').match(/convolver_/)) {
-      globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
-        self.buffer = data;
-      });
+      this.setConvolverBuffer(details.sampleName);
     }
 
     this.set({name: details.label});
@@ -22,6 +19,28 @@ var Effect = Backbone.Model.extend({
     _(this.params).each(function(param) {
       param.values = [];
       param.points = [];
+    });
+  },
+  toJSON: function(options) {
+    var json = _(this.attributes).clone();
+    json.params = this.params;
+
+    return json;
+  },
+  parse: function(res, options) {
+    if (res.params) this.params = res.params;
+
+    if (res.type && res.type.match(/convolver_/)) {
+      this.setConvolverBuffer(globals.effectsList[res.type].sampleName);
+    }
+
+    return res;
+  },
+  setConvolverBuffer: function(sampleName) {
+    var self = this;
+
+    globals.bufferLoader.load('audio/impulse_response/' + sampleName, globals.audioContext, function(data) {
+      self.buffer = data;
     });
   },
   addEffect: function(source, i) {
@@ -61,7 +80,7 @@ var Effect = Backbone.Model.extend({
           break;
       }
       _(this.params).each(function(val, key) {
-        effectObj[key].value = val.values[i];
+        if (val.values[i]) effectObj[key].value = val.values[i];
       });
     }
 

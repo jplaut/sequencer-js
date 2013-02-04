@@ -34,7 +34,7 @@ var AppView = Backbone.View.extend({
     $(".instrument").css('max-height', this.$el.height());
   },
   saveProject: function() {
-    this.model.currentProject.save();
+    this.model.currentProject.save(null, {parse: false});
   },
   createInstrument: function(e) {
     var instrument;

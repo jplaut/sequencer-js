@@ -23,25 +23,24 @@ var AutomationView = Backbone.View.extend({
     this.$el.html(this.template({options: this.param}).replace(/\n|\s{2,}/g, ''));
     this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
 
+    this.points = _(this.points).filter(function(point) {return point.x <= this.width}, this);
+
     if (this.points.length == 0) {
+      this.param.values = [];
       this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.defaultValue)) + "H" + this.width);
     } else {
-      this.points = _(this.points).filter(function(point) {return point.attr('cx') <= this.width}, this);
+      _(this.points).each(function(point) {
+        var self = this;
 
-      for (var i = 0; i < this.points.length; i++) {
-        var self = this,
-            point = this.points.shift(),
-            newPoint = this.canvas.circle(point.attr('cx'), point.attr('cy'), 5)
-              .attr('fill', '#000')
-              .drag(function(dx, dy, x, y) {
-                self.handleDrag(this, dx, dy, x, y);
-                }, 
-                null,
-                this.setValues
-              );
-
-        this.points.push(newPoint);
-      }
+        this.canvas.circle(point.x, point.y, 5)
+          .attr('fill', '#000')
+          .drag(function(dx, dy, x, y) {
+            self.handleDrag(this, dx, dy, x, y);
+            }, 
+            null,
+            this.setValues
+          );
+      }, this);
 
       this.drawPathFromPoints();
     }
@@ -78,9 +77,12 @@ var AutomationView = Backbone.View.extend({
   },
   handleClick: function (e) {
     var self = this,
-        x = this.normalizeX(e.pageX),
-        y = this.normalizeY(e.pageY);
-        point = this.canvas.circle(x, y, 5)
+        point = {
+          x: this.normalizeX(e.pageX), 
+          y: this.normalizeY(e.pageY)
+        };
+
+        this.canvas.circle(point.x, point.y, 5)
           .attr('fill', '#000')
           .drag(function(dx, dy, x, y) {
               self.handleDrag(this, dx, dy, x, y);
@@ -89,8 +91,8 @@ var AutomationView = Backbone.View.extend({
             this.setValues
           );
       
-    if (_(this.points).any(function(point) {return x < point.attr('cx')})) {
-      var i = _(this.points).indexOf(_(this.points).find(function(point) {return point.attr('cx') > x}));
+    if (_(this.points).any(function(p) {return p.x > point.x})) {
+      var i = _(this.points).indexOf(_(this.points).find(function(p) {return p.x > point.x}));
       this.points.splice(i, 0, point);
     } else {
       this.points.push(point);
@@ -103,12 +105,12 @@ var AutomationView = Backbone.View.extend({
     this.automationPath.remove();
 
     if (this.points.length == 1) {
-      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.width;
+      automationPathStr = "M0, " + this.points[0].y + "H" + this.width;
     } else {
-      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.points[0].attr('cx');
+      automationPathStr = "M0, " + this.points[0].y + "H" + this.points[0].x;
 
       _(this.points.slice(1, this.points.length)).each(function(point) {
-        automationPathStr += "L" + point.attr('cx') + ", " + point.attr('cy');
+        automationPathStr += "L" + point.x + ", " + point.y;
       });
 
       automationPathStr += "H" + this.width;
@@ -132,10 +134,17 @@ var AutomationView = Backbone.View.extend({
     y = this.normalizeY(y);
 
     if (Raphael.isPointInsideBBox(bbox, x, y)) {
-      var i = _(this.points).indexOf(point);
+      var p = _(this.points).where({x: point.attr('cx'), y: point.attr('cy')});
+      var i = this.points.indexOf(p[0]);
 
-      if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.width) {
-        this.points[i].attr({cx: x, cy: y});
+      if (!(this.points[i-1] && x <= this.points[i-1].x) && !(this.points[i+1] && x >= this.points[i+1].x)) {
+        this.points[i].x = x;
+        this.points[i].y = y;
+        point.attr({
+          cx: x,
+          cy: y
+        });
+
         this.drawPathFromPoints();
       }
     }
