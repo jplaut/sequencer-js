@@ -9,8 +9,9 @@ var Project = Backbone.Model.extend({
     this.instruments = new Instruments;
   },
   toJSON: function(options) {
-    var json = _(this.attributes).clone();
-    json.instruments = this.instruments.toJSON();
+    var json, project = _(this.attributes).clone();
+    project.instruments = this.instruments.toJSON();
+    json = {project: project};
 
     return json;
   },

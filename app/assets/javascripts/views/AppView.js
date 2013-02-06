@@ -15,6 +15,7 @@ var AppView = Backbone.View.extend({
     this.template = globals.templateLoader.load('app');
 
     this.collection.on('add', this.appendInstrument);
+    this.collection.on('reset', this.render);
     evts.on('remove:instrument', this.removeInstrument);
     $(window).on('resize', this.handleWindowResize);
   },
@@ -34,17 +35,11 @@ var AppView = Backbone.View.extend({
     $(".instrument").css('max-height', this.$el.height());
   },
   saveProject: function() {
-    this.model.currentProject.save(null, {parse: false});
+    console.log(this.model.currentProject.toJSON());
+    //return this.model.currentProject.save(null, {parse: false});
   },
   createInstrument: function(e) {
-    var instrument;
-
-    switch ($(e.currentTarget).val()) {
-      case "Sequencer":
-        instrument = new Sequencer;
-    }
-    
-    this.collection.add(instrument);
+    this.collection.add({type: $(e.currentTarget).val()});
     $(e.currentTarget).val('default');
   },
   appendInstrument: function(instrument) {
